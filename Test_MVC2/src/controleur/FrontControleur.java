@@ -1,4 +1,4 @@
-	package controleur;
+package controleur;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,6 +11,10 @@ import DAO.ConnexionDAO;
 import command.ICommand;
 import command.InconnueCommand;
 import commun.IConstante;
+import org.apache.log4j.Logger;
+
+
+
 
 /**
  * Servlet implementation class FrontControleur
@@ -25,6 +29,18 @@ import commun.IConstante;
 //@WebServlet(description = "controleur principal", urlPatterns = { "/frontControleur", "/index", "*.do"}, loadOnStartup=1)
 @WebServlet("/frontControleur")
 public class FrontControleur extends HttpServlet {
+	
+	public static final Logger logger = Logger.getLogger(controleur.FrontControleur.class);
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		logger.error("msg de debogage");
+		
+		
+	}
+	
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -37,6 +53,9 @@ public class FrontControleur extends HttpServlet {
     
     protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	
+    	
+    	
+    	
     	//methode principal
     	System.out.println("nom de servlet : "+this.getServletName()+" methode "+request.getMethod()+" uri "+request.getRequestURI());
     	
@@ -48,7 +67,15 @@ public class FrontControleur extends HttpServlet {
     	ICommand command = getCommand(request);
     	//on execute la methode execute et
     	String urlSuite = command.execute(request, response);
+    	
+    	
+    	logger.info("mon url" + urlSuite);
+    	
     	System.out.println("mon url " +urlSuite);
+    	
+    	
+    	
+    	
     	//on la renvoi dans la requete suivante
     	request.getRequestDispatcher(urlSuite).forward(request, response);
     	
@@ -66,6 +93,13 @@ public class FrontControleur extends HttpServlet {
 	}
 	
 	private ICommand getCommand(HttpServletRequest request) {
+		
+		
+		
+		
+		
+		
+		
 		//command.NomCommand correspont à la structure ou "nom" correspont à la class que l'on retrouve dans le cmd
 		// on le remplit via les constantes contenues dans "IConstante"
 		String cmd  =   IConstante.PACKAGE_COMMAND + request.getParameter(IConstante.CLEFS_COMMAND)+IConstante.CLASS_COMMAND;
